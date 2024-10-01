@@ -1,0 +1,27 @@
+version: '3.8'  # Specify the Compose file version
+
+services:
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"  # Expose Flask app on port 5000
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=mysql://root:54322016@db:3306/sms_system  # Update with your DB credentials
+    depends_on:
+      - db
+
+  db:
+    image: mysql/mysql-server:5.7  # Use the MySQL image
+    ports:
+      - "3306:3306"  # Expose MySQL on port 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 54322016  # Set the MySQL root password
+      MYSQL_DATABASE: sms_system  # Create a default database
+      MYSQL_USER: root  # Create a user
+      MYSQL_PASSWORD: 54322016  # User password
+    volumes:
+      - db_data:/var/lib/mysql  # Persist database data
+
+volumes:
+  db_data:  # Define a volume for MySQL data
