@@ -17,8 +17,15 @@ COPY . .
 EXPOSE 5000
 
 # Define environment variable
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
+# ENV FLASK_APP=app.py
+# ENV FLASK_RUN_HOST=0.0.0.0
 
 # Run the application
-CMD ["flask", "run"]
+# CMD ["flask", "run"]
+
+
+# Copy the Gunicorn configuration file
+COPY gunicorn_config.py /app/gunicorn_config.py
+
+# Command to run the Flask app with Gunicorn
+CMD gunicorn --config gunicorn_config.py wsgi:app
